@@ -85,10 +85,10 @@ for i in "$@"; do
         awk -F";" '{count[$1] += $5} END {for (line in count) print count[line] ";" line}' data/data.csv | sort -k1nr | head -10 | sort -t";" -k2n > demo/resultatL.csv
         ;;
     '-t')
-        #awk -F";" 'NR > 1 {tab[$1";"$4] +=1; if ($2==1) {tab[$1";"$3]+=1; deb[$1";"$3]=1}} END {for (ville in tab) print ville ";" tab[ville] ";" deb[ville] }' data/data.csv | awk -F";" '{tab[$2]+=1; deb[$2]+=$4} END {for (ville in tab) print ville ";" tab[ville] ";" deb[ville]}' > temps/temps_final.csv
-        gcc -o t progc/t.c
-        chmod +x progc/t.c
-        ./t > demo/resultatt.csv;;
+        awk -F";" 'NR > 1 {tab[$1";"$4] +=1; if ($2==1) {tab[$1";"$3]+=1; deb[$1";"$3]=1}} END {for (ville in tab) print ville ";" tab[ville] ";" deb[ville] }' data/data.csv | awk -F";" '{tab[$2]+=1; deb[$2]+=$4} END {for (ville in tab) print ville ";" tab[ville] ";" deb[ville]}' > temps/temps_final.csv
+        gcc -o t1 progc/t_1.c
+        chmod +x progc/t_1.c
+        ./t1 > demo/resultatt.csv;;
     '-s')
          #LC_NUMERIC=C awk -F";" '{count[$1]+= $5; nm[$1]+=1; if(min[$1]=="" || min[$1]>$5) min[$1]=$5; if(max[$1]=="" || max[$1]<$5) max[$1]=$5;} END {for (line in max) print line ";" count[line]/nm[line] ";" max[line] ";" min[line] ";" max[line]-min[line] }' data/data.csv > temps/tempss.csv
         gcc -o s progc/s.c
