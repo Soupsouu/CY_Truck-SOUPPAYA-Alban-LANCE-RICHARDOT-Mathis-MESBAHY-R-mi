@@ -1,0 +1,13 @@
+set terminal png size 800,800
+set output 'resultatd1.png'
+set style data histograms
+set style fill solid border -1
+set ylabel 'Les 10 meilleurs chauffeurs (Trajets)'
+set y2label 'Nombre de Trajets' tc rgb 'red'
+set xlabel 'Nom du Chauffeur' rotate by 180 tc rgb 'red'
+set xtics rotate
+set ytics rotate
+set y2tics rotate
+unset ytics ; set y2tics mirror
+set datafile separator ';'
+plot 'demo/resultatd1.csv' using 1:xticlabels(2) axes x1y2 notitle
