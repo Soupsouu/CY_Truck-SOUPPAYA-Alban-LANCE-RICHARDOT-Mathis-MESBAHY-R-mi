@@ -1,3 +1,4 @@
+set title "Statistiques sur les étapes"
 set terminal png size 1000,1000
 set style data histograms
 set style histogram cluster
@@ -6,8 +7,8 @@ set boxwidth 1.5 relative
 set style fill solid 1.0 border lt -1
 set output 'figureT.png'
 set xtics rotate
-set xlabel 'Conducteurs'
-set ylabel 'Trajets'
+set xlabel 'Conducteurs' tc rgb 'red'
+set ylabel 'Trajets' tc rgb 'red'
 set datafile separator ';'
-plot 'demo/resultatt.csv' using 2:xticlabels(1) title 'Total trajets',\
+plot 'temps/resultatt.csv' using 2:xticlabels(1) title 'Total trajets',\
 	""using 3 title 'Première ville'

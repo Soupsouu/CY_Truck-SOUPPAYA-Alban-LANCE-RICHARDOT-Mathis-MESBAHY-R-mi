@@ -1,9 +1,10 @@
+set title 'Les 10 villes les plus traversées'
 set terminal png size 1500,1000
 set style data lines
 set output 'figureS.png'
-set xtic rotate
-set xlabel 'Route ID'
-set ylabel 'Distance(km)'
+set xtic rotate by 45 right
+set xlabel 'Route ID' tc rgb 'red'
+set ylabel 'Distance(km)' tc rgb 'red'
 set datafile separator ';'
-plot 'demo/resultats.csv' using 1:3:5 with filledcurves fc rgbcolor "#99FFCC" ,\
-	""using 4:xticlabels(2) lc rgbcolor "black"
+plot 'temps/resultats.csv' using 1:4:5 with filledcurves fc rgbcolor "#99FFCC" title 'MinMax' ,\
+	""using 3:xticlabels(2) lc rgbcolor "black" title 'Moyenne'
