@@ -3,7 +3,7 @@
 
 Liste des dossiers : Gnuplots/progc/images/demo/data/temps
 
-Le dossier data doit être crée (Pas possible de mettre un dossier vide sur Github) 
+Le dossier data doit être créé (Pas possible de mettre un dossier vide sur Github) 
 
 Liste des fichiers : pro1.sh
 
