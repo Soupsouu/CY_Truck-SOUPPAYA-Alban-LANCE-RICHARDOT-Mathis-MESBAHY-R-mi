@@ -1,0 +1,14 @@
+set title "Les 10 villes les plus traversées"
+set terminal png size 1000,1000
+set style data histograms
+set style histogram cluster
+set yrange [0:4000]
+set boxwidth 1.5 relative
+set style fill solid 1.0 border lt -1
+set output 'figureT.png'
+set xtics rotate
+set xlabel 'Conducteurs' tc rgb 'red'
+set ylabel 'Trajets' tc rgb 'red'
+set datafile separator ';'
+plot 'temps/resultatt.csv' using 2:xticlabels(1) title 'Total trajets',\
+	""using 3 title 'Première ville'
