@@ -1,3 +1,14 @@
+-Il est censé y avoir 6 dossiers dans le fichier courant et 1 fichier :
+
+Liste des dossiers : Gnuplots/progc/images/demo/data/temps
+Liste des fichiers : pro1.sh
+
+-Les fichiers .c et le makefile doivent être dans le dossier progc
+
+-Les fichier .gn doivent être dans le dossier Gnuplots
+
+-Le fichier data.csv doit être dans le dossier data (S'il n'y est pas un message d'erreur est envoyé)
+
 -Pour éxécuter le script :
 
 bash pro1.sh data.csv option
