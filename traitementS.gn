@@ -1,4 +1,4 @@
-set title 'Les 10 villes les plus traversées'
+set title 'Statistique sur les étapes'
 set terminal png size 1500,1000
 set style data lines
 set output 'figureS.png'
