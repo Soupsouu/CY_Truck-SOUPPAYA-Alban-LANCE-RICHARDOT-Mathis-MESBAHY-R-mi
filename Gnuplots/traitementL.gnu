@@ -7,4 +7,4 @@ set boxwidth 2 relative
 set ylabel 'Kilomètres' tc rgb 'red'
 set xlabel 'ID trajet' tc rgb 'red'
 set datafile separator ';'
-plot 'temps/resultatL.csv' using 1:xticlabels(2) notitle lc rgbcolor "#99FFCC"
+plot 'demo/resultatcsv/resultatL.csv' using 1:xticlabels(2) notitle lc rgbcolor "#99FFCC"
