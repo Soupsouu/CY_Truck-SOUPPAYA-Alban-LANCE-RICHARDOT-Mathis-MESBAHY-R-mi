@@ -1,5 +1,6 @@
 #include "fonction.h"
 
+//crée un noeud d'AVL avec une structure ville
 pAVL_NT creationAVL_NT(DVilleT * ville){
 	pAVL_NT n= malloc(sizeof(AVL_NT));
 	if(n==NULL){
@@ -13,20 +14,20 @@ pAVL_NT creationAVL_NT(DVilleT * ville){
 }
 
 pAVL_NT rg_T(pAVL_NT n) {
-  if (n == NULL) {
-    return n;
-  }
-  int eqa, eqp;
-  pAVL_NT pivot = n->fd;
-  eqa = n->eq;
-  eqp = pivot->eq;
+  	if (n == NULL) {
+    		return n;
+  	}
+ 	 int eqa, eqp;
+ 	 pAVL_NT pivot = n->fd;
+ 	 eqa = n->eq;
+  	eqp = pivot->eq;
 
-  n->fd = pivot->fg;
-  pivot->fg = n;
+ 	 n->fd = pivot->fg;
+  	pivot->fg = n;
 
-  n->eq = eqa - max(eqp, 0) - 1;
-  pivot->eq = min(eqa - 2, min(eqa + eqp - 2, eqp - 1));
-  return pivot;
+  	n->eq = eqa - max(eqp, 0) - 1;
+  	pivot->eq = min(eqa - 2, min(eqa + eqp - 2, eqp - 1));
+ 	return pivot;
 }
 
 pAVL_NT rd_T(pAVL_NT n) {
@@ -45,51 +46,56 @@ pAVL_NT rd_T(pAVL_NT n) {
 }
 
 pAVL_NT drg_T(pAVL_NT n) {
-  if (n == NULL) {
-    return n;
-  }
-  n->fd = rd_T(n->fd);
-  return rg_T(n);
+	if (n == NULL) {
+		return n;
+  	}
+	n->fd = rd_T(n->fd);
+  	return rg_T(n);
 }
 
 pAVL_NT drd_T(pAVL_NT n) {
-  if (n == NULL) {
-    return n;
-  }
-  n->fg = rg_T(n->fg);
-  return rd_T(n);
+	if (n == NULL) {
+    		return n;
+  	}
+  	n->fg = rg_T(n->fg);
+  	return rd_T(n);
 }
 
 pAVL_NT equilibrerT(pAVL_NT n) {
-  if (n == NULL) {
-    return n;
-  }
-  if (n->eq >= 2) {
-    if (n->fd->eq >= 0) {
-      return rg_T(n);
-    } else {
-      return drg_T(n);
-    }
-  } else if (n->eq <= -2) {
-    if (n->fg->eq <= 0) {
-      return rd_T(n);
-    } else {
-      return drd_T(n);
-    }
-  }
-  return n;
+	if (n == NULL) {
+    		return n;
+  	}
+	if (n->eq >= 2) {
+    		if (n->fd->eq >= 0) {
+      			return rg_T(n);
+    	} 
+		else {
+      			return drg_T(n);
+    		}
+  	} 
+	else if (n->eq <= -2) {
+    		if (n->fg->eq <= 0) {
+      			return rd_T(n);
+    		} 
+		else {
+      			return drd_T(n);
+    	}
+  	}
+  	return n;
 }	
+
+// insertion dans l'AVL qui trie par nombre de passage d'une ville 
 pAVL_NT insertAVL_NT(pAVL_NT n, DVilleT * ville, int *h){
- 	if(n==NULL){
- 	*h=1;
- 	return creationAVL_NT(ville);
+	if(n==NULL){
+	*h=1;
+		return creationAVL_NT(ville);
  	}
  	else if(ville->nbp < n->Nom->nbp){
- 	n->fg=insertAVL_NT(n->fg,ville,h);
- 	*h=-*h;
+ 		n->fg=insertAVL_NT(n->fg,ville,h);
+ 		*h=-*h;
  	}
 	else if(ville->nbp > n->Nom->nbp){
- 	n->fd=insertAVL_NT(n->fd,ville,h);
+ 		n->fd=insertAVL_NT(n->fd,ville,h);
  	}
  	else if(ville->nbp==n->Nom->nbp){
  		int cmp = strcmp(ville->nom, n->Nom->nom);
@@ -118,6 +124,7 @@ pAVL_NT insertAVL_NT(pAVL_NT n, DVilleT * ville, int *h){
 	return n;
 }
 
+// fonction insertion dans l'AVL qui trie par nom de ville
 pAVL_NT insertAVL_KT(pAVL_NT n, DVilleT * ville, int *h){
 	if(n==NULL){
 		*h=1;
@@ -148,6 +155,7 @@ pAVL_NT insertAVL_KT(pAVL_NT n, DVilleT * ville, int *h){
 	return n;
 }
 
+// recupere les 10 plus grands et les insert dans un nouvelle AVL
 pAVL_NT AVL_KT(pAVL_NT n, int *count, pAVL_NT nw) {
     if (n != NULL && *count > 0) {
         nw = AVL_KT(n->fd, count, nw);
@@ -161,6 +169,7 @@ pAVL_NT AVL_KT(pAVL_NT n, int *count, pAVL_NT nw) {
     return nw;
 }
 
+// affichage en suffixe d'un AVL
 void afficheAVL_K1T(pAVL_NT n) {
 	if (n != NULL) {
 	        afficheAVL_K1T(n->fg);
@@ -169,6 +178,7 @@ void afficheAVL_K1T(pAVL_NT n) {
 	}
 }
 
+// ouvre le fichier temps_final.csv pour inserer dans le premier AVL les données
 pAVL_NT AVL_K2NT(char *nom_f) {
     FILE *fichier = NULL;
     fichier = fopen(nom_f, "r");
