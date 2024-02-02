@@ -102,9 +102,9 @@ fi
 
 if [ -e $temp ]
 then 
-	rm -r temps
+	rm -r $temps
 fi
-mkdir temps
+mkdir $temps
 
 # Execution des options 
 
