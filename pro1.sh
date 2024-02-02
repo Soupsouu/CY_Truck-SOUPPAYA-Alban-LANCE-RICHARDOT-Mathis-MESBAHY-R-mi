@@ -242,13 +242,9 @@ then
 else 
 	read -p "Voulez-vous afficher les graphiques ? (O/N)" reponse
 	case $reponse in 
-		'O')
+		'O'|'o')
 			affichageimage;;
-		'o')
-			affichageimage;;
-		'n')
-			exit 1;;
-		'N')
+		'n'|'N')
 			exit 1;;
 		*)
 			exit 1;;
