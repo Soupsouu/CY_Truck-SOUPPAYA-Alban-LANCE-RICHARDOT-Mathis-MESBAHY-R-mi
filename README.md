@@ -7,7 +7,7 @@ Le dossier data doit être créé (Pas possible de mettre un dossier vide sur Gi
 
 Liste des fichiers : pro1.sh
 
--Les fichiers .c et le makefile doivent être dans le dossier progc
+-Les fichiers .c, le ficher .h et le makefile doivent être dans le dossier progc sinon un message d'erreur sera affiché
 
 -Les fichier .gn doivent être dans le dossier Gnuplots
 
