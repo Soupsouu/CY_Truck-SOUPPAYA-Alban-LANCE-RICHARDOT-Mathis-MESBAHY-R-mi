@@ -192,6 +192,9 @@ pAVL_NT AVL_K2NT(char *nom_f) {
         char *token = strtok(ligne, ";");
         if (token != NULL) {
             DVilleT *ville = malloc(sizeof(DVilleT));
+	    if(ville==NULL){
+            	exit(1)
+            }
             ville->nom = strdup(token);
 
             token = strtok(NULL, ";");
