@@ -11,4 +11,4 @@ set ytics rotate
 set y2tics rotate
 unset ytics ; set y2tics mirror
 set datafile separator ';'
-plot 'temps/resultatd1.csv' using 1:xticlabels(2) axes x1y2 notitle lc rgbcolor "#99FFCC"
+plot 'demo/resultatcsv/resultatd1.csv' using 1:xticlabels(2) axes x1y2 notitle lc rgbcolor "#99FFCC"
