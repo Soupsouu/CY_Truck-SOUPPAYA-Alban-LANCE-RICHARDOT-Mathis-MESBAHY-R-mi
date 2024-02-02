@@ -20,6 +20,7 @@ dossier2="demo"
 resultat="resultatcsv"
 v1=0
 v2=0
+v3=0
 
 #fonction effet visuel durant l'execution des traitements 
 
@@ -125,10 +126,31 @@ else
 	mkdir $temp
 fi
 
+# verification du fichier executable c :
+#	- si oui il accorde les permissions d'execution
+#	- si non se crée 
+
+if [ ! -e $EXEC ]
+then
+	cd progc
+	if [ -e main.c ] && [ -e fonctionS.c ] && [ -e fonctionT.c ] && [ -e makefile ] && [ -e fonction.h ]
+	then
+		make
+		rm fonctionS.o
+		rm fonctionT.o
+		rm main.o
+	else
+		v3=1
+	fi
+	cd ..
+else
+	
+	chmod +x $EXEC
+fi
 
 # Execution des options 
 
-if [ $v1 -eq 1 ] || [ $v2 -eq 1 ]
+if [ $v1 -eq 1 ] || [ $v2 -eq 1 ]|| [ $v3 -eq 1 ]
 then
 	if [ $v1 -eq 1 ]
 	then
@@ -139,21 +161,14 @@ then
 	then
  		echo "Le fichier $fichier n'existe pas dans le dossier $dossier."
 	fi
+	if [ $v3 -eq 1 ]
+	then
+ 		echo "Le makefile, des fichiers c ou le fichier h manque dans le dossier progc"
+	fi
+	 
  	exit 1
 fi
 
-# verification du fichier executable c :
-#	- si oui il accorde les permissions d'execution
-#	- si non se crée 
-
-if [ ! -e $EXEC ]
-then
-	cd progc
-	make
-	cd ..
-else
-	chmod +x $EXEC
-fi
 
 # afin de prendre que les arguments juste après le premier argument 
 shift
@@ -163,7 +178,7 @@ shift
 for i in $@
 do
 	# affiche un message de tt les options disponible avec le temps d'execution
-	if [ $i = "-h" ]
+	if [ $i = "-h" ] || [ $i = "-H" ]
 	then
 			debut=$(date +%s)
 			echo "Voici les options existantes:
@@ -297,6 +312,7 @@ fi
 #						option s environ 14s d'execution 
 #LC_NUMERIC=C awk -F";" '{count[$1]+= $5; nm[$1]+=1; if(min[$1]=="" || min[$1]>$5) min[$1]=$5; if(max[$1]=="" || max[$1]<$5) max[$1]=$5;} END {for (line in count) print line ";" count[line]/nm[line] ";" min[line] ";" max[line] ";" max[line]-min[line]}' data/data.csv > temps/tempss.csv
 
+ 
  
 
 
