@@ -2,6 +2,7 @@
 
 clear
 
+
 echo "	░█████╗░██╗░░░██╗░░░░░░████████╗██████╗░██╗░░░██╗░█████╗░██╗░░██╗░██████╗
 	██╔══██╗╚██╗░██╔╝░░░░░░╚══██╔══╝██╔══██╗██║░░░██║██╔══██╗██║░██╔╝██╔════╝
 	██║░░╚═╝░╚████╔╝░█████╗░░░██║░░░██████╔╝██║░░░██║██║░░╚═╝█████═╝░╚█████╗░
@@ -15,6 +16,8 @@ images="images"
 temp="temps"
 dossier="data"
 fichier="data.csv"
+dossier2="demo"
+resultat="resultatcsv"
 v1=0
 v2=0
 
@@ -61,13 +64,29 @@ fi
 #	- si le dossier contient des fichers alors il les déplace
 #	- si le dossier n'existe pas il le crée 
   
+if [ -e $dossier2 ]
+then 
+	if [ ! -e $dossier2/$temp ]
+	then
+		mkdir $dossier2/$temp
+	fi
+	
+	if [ ! -e $dossier2/$resultat ]
+	then
+		mkdir $dossier2/$resultat
+	fi
+else
+	mkdir $dossier2
+	mkdir $dossier2/$temp
+	mkdir $dossier2/$resultat	
+fi
 
 if [ -e $images ]
 then 
 	nombre_fichier=$((`ls -l $images | wc -l`-1))
 	if [ $nombre_fichier -ne 0 ]
 	then
-		mv images/* demo
+		mv $images/* $dossier2
 	fi
 else 
 	mkdir $images 
@@ -77,24 +96,19 @@ fi
 
 if [ $1 != "data.csv" ]
 then
-    #echo "Veuillez ecrire data.csv pour le premier champ"
     v1=1
 fi
 
 # verification du fichier data.csv 
-
-
 
 if [ -e $fichier ]; then
     mv $fichier $dossier
 else
     if [ ! -e $dossier/$fichier ]
     then
-        #echo "Le fichier $fichier n'existe pas dans le dossier $dossier."
         v2=1
     fi
 fi
-
 
 # verification du dossier:
 # 	-si le ficher existe pas le crée 
@@ -102,9 +116,15 @@ fi
 
 if [ -e $temp ]
 then 
-	rm -r $temps
+	nombre_fichier=$((`ls -l $temp | wc -l`-1))
+	if [ $nombre_fichier -ne 0 ]
+	then
+		mv $temp/* $dossier2/$temp
+	fi
+else
+	mkdir $temp
 fi
-mkdir $temps
+
 
 # Execution des options 
 
@@ -176,7 +196,7 @@ for i in "$@"; do
     '-d1'|'-D1')
     
     	echo "Traitement $i en cours..."
-        awk -F";" '/;1;/ {compte[$6] += 1} END {for (ligne in compte) print compte[ligne] ";" ligne}' data/data.csv | sort -k1nr | head -10 > temps/resultatd1.csv
+        awk -F";" '/;1;/ {compte[$6] += 1} END {for (ligne in compte) print compte[ligne] ";" ligne}' data/data.csv | sort -k1nr | head -10 > demo/resultatcsv/resultatd1.csv
         
         gnuplot Gnuplots/traitement1.gn
         convert -rotate 90 figured1.png figured1.png
@@ -185,7 +205,7 @@ for i in "$@"; do
     '-d2'|'-D2')
     
     	echo "traitement $i en cours..."
-        awk -F";" '{compte[$6] += $5} END {for (ligne in compte) print compte[ligne] ";" ligne}' data/data.csv | sort -k1nr | head -10 > temps/resultatd2.csv
+        awk -F";" '{compte[$6] += $5} END {for (ligne in compte) print compte[ligne] ";" ligne}' data/data.csv | sort -k1nr | head -10 > demo/resultatcsv/resultatd2.csv
         
         gnuplot Gnuplots/traitement2.gn
 	convert -rotate 90 figured2.png figured2.png
@@ -194,7 +214,7 @@ for i in "$@"; do
     '-l'|'-L')
     
     	chargement &
-        awk -F";" '{compte[$1] += $5} END {for (ligne in compte) print compte[ligne] ";" ligne}' data/data.csv | sort -k1nr | head -10 | sort -t";" -k2n > temps/resultatL.csv
+        awk -F";" '{compte[$1] += $5} END {for (ligne in compte) print compte[ligne] ";" ligne}' data/data.csv | sort -k1nr | head -10 | sort -t";" -k2n > demo/resultatcsv/resultatL.csv
         
         gnuplot Gnuplots/traitementL.gnu
         mv figureL.png images
@@ -207,7 +227,7 @@ for i in "$@"; do
     	chargement &
         awk -F";" 'NR > 1 {compte[$1";"$4] +=1; if ($2==1) {compte[$1";"$3]+=1; deb[$1";"$3]=1}} END {for (ville in compte) print ville ";" compte[ville] ";" deb[ville] }' data/data.csv | awk -F";" '{compte[$2]+=1; deb[$2]+=$4} END {for (ville in compte) print ville ";" compte[ville] ";" deb[ville]}' > temps/temps_final.csv
         
-        ./progc/exec -t > temps/resultatt.csv
+        ./progc/exec -t > demo/resultatcsv/resultatt.csv
         gnuplot Gnuplots/traitementT.gn
         mv figureT.png images
         
@@ -216,7 +236,7 @@ for i in "$@"; do
         
     '-s'|'-S')
     	chargement &
-        ./progc/exec -s > temps/resultats.csv
+        ./progc/exec -s > demo/resultatcsv/resultats.csv
         
         gnuplot Gnuplots/traitementS.gn
         mv figureS.png images
@@ -278,9 +298,6 @@ fi
 #LC_NUMERIC=C awk -F";" '{count[$1]+= $5; nm[$1]+=1; if(min[$1]=="" || min[$1]>$5) min[$1]=$5; if(max[$1]=="" || max[$1]<$5) max[$1]=$5;} END {for (line in count) print line ";" count[line]/nm[line] ";" min[line] ";" max[line] ";" max[line]-min[line]}' data/data.csv > temps/tempss.csv
 
  
-
-
-
 
 
 
