@@ -1,5 +1,6 @@
 #include "fonction.h"
 
+//crée un ID avec une structure ID
 DID * creationID(DID * ID){
     DID * n = malloc(sizeof(DID));
     if(n == NULL){
@@ -15,6 +16,7 @@ DID * creationID(DID * ID){
     return n;
 }
 
+//crée un noeud d'AVL avec une structure ID
 pAVL_N creationAVL_2(DID * ID){
     pAVL_N n = malloc(sizeof(AVL_N));
     if(n == NULL){
@@ -27,6 +29,7 @@ pAVL_N creationAVL_2(DID * ID){
     return n;
 }
 
+//crée un noeud d'AVL avec une structure ID
 pAVL_N creationAVL_N(DID * ID){
     pAVL_N n = malloc(sizeof(AVL_N));
     if(n == NULL){
@@ -107,6 +110,7 @@ pAVL_N equilibrer(pAVL_N n) {
     return n;
 }
 
+// insertion dans l'AVL qui trie par ID et change les valeurs dans les valers dans la structure du noeud si egale
 pAVL_N insertAVL_1(pAVL_N n, DID * ID, int *h){
     if(n == NULL){
         *h = 1;
@@ -146,6 +150,7 @@ pAVL_N insertAVL_1(pAVL_N n, DID * ID, int *h){
     return n;
 }
 
+// insertion dans l'AVL qui trie par la difference de max et min
 pAVL_N insertAVL_2(pAVL_N n, DID * ID, int *h){
     if(n == NULL){
         *h = 1;
@@ -184,6 +189,7 @@ pAVL_N insertAVL_2(pAVL_N n, DID * ID, int *h){
     return n;
 }
 
+// recupere les noeuds d'un AVL pour les inserer dans le nouvelle AVL
 pAVL_N AVL_finale(pAVL_N n, pAVL_N nw){
     if (n != NULL) {
         nw = AVL_finale(n->fd, nw);
@@ -196,6 +202,7 @@ pAVL_N AVL_finale(pAVL_N n, pAVL_N nw){
     return nw;  
 }
 
+// insert dans le premier AVL les données du fichier mis en argument
 pAVL_N AVL_K2N(char *nom_f) {
     FILE *fichier = fopen(nom_f, "r");
     if (fichier == NULL) {
@@ -225,6 +232,7 @@ pAVL_N AVL_K2N(char *nom_f) {
     return n;
 }
 
+// Affiche les 10 valeurs les plus élever
 void affichage(pAVL_N n, int *count, int *i){
     if (n != NULL && *count > 0) {
         affichage(n->fd, count, i);
