@@ -215,7 +215,7 @@ pAVL_N AVL_K2N(char *nom_f) {
         char *token = strtok(ligne, ";");
         if (token != NULL) {
             DID * ID = malloc(sizeof(DID));
-             if(ID=NULL){
+             if(ID==NULL){
             	exit(1)
             }
             ID->id = atoi(token);
